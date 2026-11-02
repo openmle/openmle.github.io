@@ -1,0 +1,95 @@
+site_name: OMLE
+site_description: Open Machine Learning Exchange — an open, schema-aware interchange format for classical machine learning inference.
+site_url: https://openmle.github.io/
+repo_url: https://github.com/openmle/omle
+repo_name: openmle/omle
+edit_uri: ""
+
+theme:
+  name: material
+  # These sit alongside the theme's own generated assets/images/; a file with
+  # the same name here takes precedence over the theme's copy.
+  # Both are the hexagon mark alone, not the full lockup: the wordmark is
+  # illegible at favicon size, and in the header mkdocs already renders
+  # site_name beside the logo, so a lockup would read "OMLE OMLE".
+  favicon: assets/images/favicon.png
+  # White ink, unlike the favicon: the header is dark indigo, where the
+  # source navy is close to invisible. The teal nodes are kept as the accent.
+  logo: assets/images/logo.png
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: indigo
+      accent: indigo
+      toggle: { icon: material/weather-night, name: Switch to dark mode }
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: indigo
+      accent: indigo
+      toggle: { icon: material/weather-sunny, name: Switch to light mode }
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.top
+    - navigation.instant
+    - content.code.copy
+    - search.highlight
+    - search.suggest
+    - toc.follow
+
+extra_css:
+  - stylesheets/extra.css
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc: { permalink: true }
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed: { alternate_style: true }
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search
+
+# The synced trees (spec/, reference/, converters/) are pulled in by
+# scripts/sync_content.py. Pages are listed explicitly so the order is editorial
+# rather than alphabetical; a page added upstream needs a line here to appear in
+# the nav, though it is built and searchable without one.
+nav:
+  - Home: index.md
+  - Playground: playground/index.md
+  - Specification:
+      - Overview: spec/README.md
+      - Composite scoping: spec/composite-scoping.md
+      - Validation rules: spec/validation-rules.md
+  - Reference:
+      - Registry: reference/README.md
+      - omle.ml: reference/operators/omle.ml.md
+      - omle.core: reference/operators/omle.core.md
+      - omle.feature: reference/operators/omle.feature.md
+      - omle.text: reference/operators/omle.text.md
+      - omle.functions: reference/functions/omle.functions.md
+  - Converters:
+      - Overview: converters/README.md
+      - scikit-learn: converters/sklearn.md
+      - Spark ML: converters/spark.md
+      - XGBoost: converters/xgboost.md
+      - LightGBM: converters/lightgbm.md
+      - CatBoost: converters/catboost.md
+      - category_encoders: converters/category_encoders.md
+  - Ecosystem: ecosystem.md
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/openmle
+    - icon: fontawesome/brands/python
+      link: https://pypi.org/project/omle/
+  generator: false
+
+copyright: Apache License 2.0

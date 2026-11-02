@@ -1,0 +1,32 @@
+/* Hero block on the landing page. */
+.omle-hero {
+  text-align: center;
+  padding: 2.4rem 1rem 1.2rem;
+}
+.omle-hero h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin: 0 0 .4rem;
+  line-height: 1.15;
+}
+.omle-hero p {
+  font-size: 1.05rem;
+  max-width: 44rem;
+  margin: 0 auto 1.4rem;
+  color: var(--md-default-fg-color--light);
+}
+.omle-cta { display: flex; gap: .6rem; justify-content: center; flex-wrap: wrap; }
+
+/* Comparison table: keep the verdict columns narrow and centred so the
+   capability column gets the width it needs on a phone. */
+.omle-compare table { width: 100%; }
+.omle-compare th:not(:first-child),
+.omle-compare td:not(:first-child) { text-align: center; white-space: nowrap; }
+
+/* The playground is an iframe of the self-contained viewer bundle. */
+.omle-frame {
+  width: 100%;
+  height: min(78vh, 900px);
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 6px;
+}

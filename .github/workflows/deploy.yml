@@ -1,0 +1,70 @@
+name: Deploy site
+
+on:
+  push:
+    branches: [main]
+  # The spec and registry reference are generated in openmle/omle, so let that
+  # repo trigger a rebuild here when they change, and allow a manual run.
+  repository_dispatch:
+    types: [content-updated]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Never let two deploys race; a later push should win rather than queue.
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # A dispatched run says nothing about its cause in the UI, and "why did
+      # the site rebuild at 3am" is the first question when one goes wrong.
+      - name: Show what triggered this run
+        run: |
+          echo "event: ${{ github.event_name }}"
+          if [ "${{ github.event_name }}" = "repository_dispatch" ]; then
+            echo "requested by: ${{ github.event.client_payload.source }}"
+            echo "ref/sha:      ${{ github.event.client_payload.ref }}${{ github.event.client_payload.sha }}"
+          fi
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+
+      - run: pip install -r requirements.txt
+
+      # Pulls the spec and registry reference from openmle/omle, the per-framework
+      # support references from openmle/omle-convert, and the viewer bundle from
+      # the published omle-viewer wheel. No npm needed: the bundle is a released
+      # artifact, so the playground always shows a shipped version.
+      - name: Sync content from the source repos
+        run: python scripts/sync_content.py
+
+      # --strict fails the build on an unresolved link, which is how a doc moving
+      # upstream gets caught here instead of shipping as a 404.
+      - name: Build
+        run: mkdocs build --strict
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: site
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

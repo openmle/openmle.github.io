@@ -1,0 +1,17 @@
+# Local build environment
+.venv/
+__pycache__/
+*.pyc
+
+# MkDocs output
+site/
+
+# Content synced from the other repos by scripts/sync_content.py.
+# Not committed: omle owns the spec and the generated registry reference, and
+# omle-viewer owns the viewer bundle. Committing copies here would mean two
+# sources of truth and a stale site the moment either changes.
+docs/spec/
+docs/reference/
+docs/playground/viewer.html
+
+.DS_Store

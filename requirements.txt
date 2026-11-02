@@ -1,0 +1,3 @@
+# Site toolchain. Pinned minor versions so a CI build cannot drift from a local one.
+mkdocs-material~=9.5
+mike~=2.1
